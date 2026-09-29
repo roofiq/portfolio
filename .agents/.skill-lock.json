@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "skills": {
+    "frontend-design": {
+      "name": "frontend-design",
+      "source": "local",
+      "contentHash": "b20162c8d6bcdd9137c4afceaeb4f9dce2c1ba3ccb57a96a3228b8cb33104ec4",
+      "installedAt": "2026-09-29T09:02:47.750Z",
+      "updatedAt": "2026-09-29T09:02:47.798Z",
+      "agents": [
+        "github-copilot",
+        "codex"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "best-practices": {
+      "name": "best-practices",
+      "source": "local",
+      "contentHash": "e22b6d3e9c7d29cc5f92a89a1a393aa2686aa5c0cd70b7159a7fc9a2bc779461",
+      "installedAt": "2026-09-29T09:05:53.369Z",
+      "updatedAt": "2026-09-29T09:05:53.369Z",
+      "agents": [
+        "codex"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "tlc-spec-driven": {
+      "name": "tlc-spec-driven",
+      "source": "local",
+      "contentHash": "9f4c793556001f3210a2d9fe3b41bf24e82e581c522d8dd50f65addfee169a29",
+      "installedAt": "2026-09-29T09:05:53.452Z",
+      "updatedAt": "2026-09-29T09:05:53.452Z",
+      "agents": [
+        "codex"
+      ],
+      "method": "copy",
+      "global": false
+    }
+  }
+}

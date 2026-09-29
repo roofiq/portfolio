@@ -8,7 +8,7 @@ resource "github_branch_protection" "main" {
 
   required_status_checks {
     strict   = true
-    contexts = ["validate (infra)", "validate (bootstrap/platform)"]
+    contexts = ["validate (infra)", "validate (bootstrap/platform)", "Build portfolio"]
   }
 
   required_pull_request_reviews {

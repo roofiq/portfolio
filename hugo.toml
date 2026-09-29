@@ -1,0 +1,5 @@
+baseURL = '/'
+languageCode = 'en'
+title = 'Rafal Glebocki — Azure DevOps Engineer'
+staticDir = ['site']
+disableKinds = ['taxonomy', 'term', 'RSS', 'sitemap']
