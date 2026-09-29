@@ -78,11 +78,10 @@ is needed. DNS remains managed at the domain registrar.
 
 After the first apply:
 
-1. Copy `custom_domain_validation_token` from the Terraform apply outputs (or run
-   `terraform -chdir=infra output -raw custom_domain_validation_token` with the
-   remote backend initialized and Azure authentication configured).
-2. Add a TXT record at the domain root (`@`, or an empty name if required by the
-   registrar) with that token. Azure clears the output token after validation.
+1. In Azure, open the Static Web App's **Custom domains → rglebocki.pl** and
+   copy the full TXT verification value. Terraform does not output this token.
+2. In home.pl, add a TXT record with that value and leave **Host (Opcjonalne)**
+   empty to apply it to the domain root.
 3. In Azure, open the Static Web App's **Overview → JSON View** and copy
    `properties.stableInboundIP`. Set the root A record to that IP, replacing any
    old root A record targeting a different host. The registrar shown supports A
