@@ -42,3 +42,9 @@ administration access.
 For details, existing-resource imports, and local Terraform usage, see
 [scripts/bootstrap.ps1](scripts/bootstrap.ps1) or run
 `Get-Help .\scripts\bootstrap.ps1 -Full`.
+
+Local platform Terraform also protects `main`: changes require a pull request,
+both validation checks, and resolved review conversations. Reviewer approval is
+optional so you can merge your own PRs. Force pushes and branch deletion are
+blocked, including for administrators. Push the workflow changes to `main`
+before applying this protection so every PR can run the required checks.
