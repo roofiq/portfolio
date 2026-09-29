@@ -9,3 +9,7 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 bootstrap/platform/bootstrap.auto.tfvars.json
+public/
+resources/
+.hugo_build.lock
+tmp/
