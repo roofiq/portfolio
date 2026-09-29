@@ -1,0 +1,89 @@
+name: Infrastructure
+
+on:
+  pull_request:
+    paths:
+      - "infra/**"
+      - "bootstrap/platform/**"
+      - ".github/workflows/infra.yml"
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - "bootstrap/platform/**"
+      - ".github/workflows/infra.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [infra, bootstrap/platform]
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.0"
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false -lockfile=readonly
+      - run: terraform validate -no-color
+
+  apply:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: portfolio-infra-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: "true"
+      ARM_USE_AZUREAD: "true"
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject stale infrastructure runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          current_sha=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
+          if [ "$GITHUB_SHA" != "$current_sha" ]; then
+            echo "::error::This run is no longer current on main. Run the workflow on the latest main commit."
+            exit 1
+          fi
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.0"
+      - name: Check bootstrap configuration
+        env:
+          TF_STATE_STORAGE_ACCOUNT: ${{ vars.TF_STATE_STORAGE_ACCOUNT }}
+        run: |
+          test -n "$ARM_CLIENT_ID"
+          test -n "$ARM_TENANT_ID"
+          test -n "$ARM_SUBSCRIPTION_ID"
+          test -n "$TF_STATE_STORAGE_ACCOUNT"
+      - name: Initialize remote state
+        env:
+          TF_STATE_STORAGE_ACCOUNT: ${{ vars.TF_STATE_STORAGE_ACCOUNT }}
+        run: terraform init -input=false -lockfile=readonly -backend-config="storage_account_name=$TF_STATE_STORAGE_ACCOUNT"
+      - name: Plan
+        run: terraform plan -input=false -no-color -out=portfolio.tfplan
+      - name: Apply
+        run: terraform apply -input=false -no-color portfolio.tfplan
+      - name: Show site URL
+        run: terraform output -raw static_web_app_url
