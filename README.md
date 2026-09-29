@@ -1,10 +1,11 @@
 # Rafal Glebocki
 
-I'm an Azure DevOps Engineer with a .NET development background. I build reliable
-cloud infrastructure, automate delivery, and help teams bring software to production.
+I'm an Azure DevOps Engineer with a .NET development background, focused on cloud infrastructure, automation, CI/CD, and reliable software delivery.
 
-This portfolio brings together my experience, selected engineering work, and certifications.
+I work primarily with Azure, Kubernetes, Infrastructure as Code, and the Microsoft ecosystem.
 
-[LinkedIn](https://www.linkedin.com/in/rafalglebocki) · [GitHub](https://github.com/roofiq) · [Email](mailto:glebocki.rg@gmail.com)
+This profile brings together selected engineering projects, technical experience, and certifications.
 
-For local setup, infrastructure, and deployment, see the [technical guide](TECHNICAL.md).
+🌐 [rglebocki.pl](https://rglebocki.pl) · [LinkedIn](https://www.linkedin.com/in/rafalglebocki) · [Email](mailto:glebocki.rg@gmail.com)
+
+For local setup, infrastructure, and deployment details, see the [technical guide](TECHNICAL.md).
